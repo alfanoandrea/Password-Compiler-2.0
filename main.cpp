@@ -26,6 +26,14 @@ std::string Color::fucsia = "\u001b[35;1m";
 std::string Color::gray = "\033[90m";
 std::string Color::reset = "\u001b[0m";
 
+void cls() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
 //-----STARTUP PHRASES------
 void getStart(std::string phrases[][MAX]) {
     phrases[0][0] = Color::red + " >> " + Color::reset;
@@ -99,26 +107,26 @@ void code(std::vector<std::string> data, std::vector<std::string> uppercase,
 }
 
 void intro(bool time) {
-    system("cls");
-    if (time == true)
+    cls();
+    if (time)
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     std::cout << Color::green;
     std::cout << "   _____                             _  \n";
     std::cout << "  |  _  |___ ___ ___ _ _ _ ___ ___ _| | \n";
     std::cout << "  |   __| .'|_ -|_ -| | | | . |  _| . | \n";
     std::cout << "  |__|  |__,|___|___|_____|___|_| |___| \n \n";
-    if (time == true)
+    if (time)
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     std::cout << "     _____               _ _          \n";
     std::cout << "    |     |___ _____ ___|_| |___ ___  \n";
     std::cout << "    |   --| . |     | . | | | -_|  _| \n";
     std::cout << "    |_____|___|_|_|_|  _|_|_|___|_|   \n";
     std::cout << "                    |_|               \n \n";
-    if (time == true)
+    if (time)
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     std::cout << Color::violet << "\n  by alfanowski & lorex   " << Color::reset
-        << "version: 2.1\n";
-    if (time == true)
+        << "version: 2.2\n";
+    if (time)
         getchar();
     else
         std::cout << "\n";
@@ -129,9 +137,9 @@ void intro(bool time) {
 
 int main() {
     std::string frasi[MAX][MAX];
-    int language;
     bool time = true;
-    char correct;
+    int language;
+    char correct, sel;
     std::string file, nome, cognome, nascita, maiuscnome, maiuscognome,
         abbrevanno, giorno, mese, anno;
 
@@ -139,16 +147,17 @@ int main() {
     getStart(frasi);
 
     do {
-        if (time == true) {
+        if (time) {
             intro(time);
             time = false;
         }
         else
             intro(time = false);
         std::cout << frasi[0][2] << frasi[0][0];
-        std::cin >> language;
-    } while (language != 1 and language != 2);
+        std::cin >> sel;
+    } while (sel != '1' and sel != '2');
 
+    language = sel - '0';
     language--;
 
     do {
@@ -224,7 +233,7 @@ int main() {
 
     getchar();
     getchar();
-    system("cls");
+    cls();
 
     return 0;
 }
